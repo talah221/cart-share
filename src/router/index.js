@@ -1,25 +1,59 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../views/Home.vue";
+import Login from "../views/Login"
+import ShoppingCart from "../views/ShoppingCart"
+import firebase from 'firebase';
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/login",
+    name: "Login",
+    component: Login,
+
+  },
+  {
+    path: "/shopping-cart",
+    name: "ShoppingCart",
+    component: ShoppingCart,
+    meta: {
+      auth: true
+    }
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+});
+
+router.beforeEach((to, from, next) => {
+
+  if (to.matched.find(route => route.meta.auth)) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) return next();
+      else next({ path: "/login" })
+    })
+  }
+
+
+
+  // if (to.matched.some(record => record.meta.auth)) {
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     if (user) {
+  //       next()
+  //     } else {
+  //       next({
+  //         path: "/login",
+  //       })
+  //     }
+  //   })
+  // } else {
+  //   next()
+  // }
 })
 
-export default router
+export default router;
