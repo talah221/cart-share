@@ -1,6 +1,5 @@
 <template>
 <section id="firebaseui-auth-container">
-    <h1>ads</h1>
 </section>
 </template>
 
@@ -8,6 +7,7 @@
 import firebase from "firebase";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
+import { APIService } from "../services/APIService";
 export default {
     name: "",
     components: {},
@@ -15,7 +15,15 @@ export default {
     data: () => ({}),
     created() {
         firebase.auth().onAuthStateChanged((user) => {
-            if (user) this.$store.dispatch("onSetUser", user);
+            if (user) {
+                this.$store.dispatch("onSetUser", user);
+                firebase
+                    .auth()
+                    .currentUser.getIdToken(false)
+                    .then((idToken) => {
+                        APIService.login("firebase", idToken);
+                    });
+            }
         });
     },
     mounted() {

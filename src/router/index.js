@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login"
 import ShoppingCart from "../views/ShoppingCart"
-import firebase from 'firebase';
+// import firebase from 'firebase';
+import $store from '../store';
 const routes = [
   {
     path: "/",
@@ -30,30 +31,22 @@ const router = createRouter({
   routes,
 });
 
+// router.beforeEach((to, from, next) => {
+
+//   if (to.matched.find(route => route.meta.auth)) {
+//     firebase.auth().onAuthStateChanged(user => {
+//       if (user) return next();
+//       else next({ path: "/login" })
+//     })
+//   }
+
+// })
+
 router.beforeEach((to, from, next) => {
-
-  if (to.matched.find(route => route.meta.auth)) {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) return next();
-      else next({ path: "/login" })
-    })
+  if (to.matched.find(route => route.meta.auth) && !$store.getters.getLoggedUser) {
+    return next({ path: "/login" });
   }
-
-
-
-  // if (to.matched.some(record => record.meta.auth)) {
-  //   firebase.auth().onAuthStateChanged(user => {
-  //     if (user) {
-  //       next()
-  //     } else {
-  //       next({
-  //         path: "/login",
-  //       })
-  //     }
-  //   })
-  // } else {
-  //   next()
-  // }
+  return next()
 })
 
 export default router;
