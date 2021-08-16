@@ -1,7 +1,7 @@
 <template>
   <el-header>
       <h3 class="home">
-        <router-link to="/"> Home </router-link>
+        <router-link to="/"> Home. </router-link>
       </h3>
       <h3  class="login" @click="toggleLogin">
         <router-link to="/login">{{loginLogoutText}}</router-link>
