@@ -1,10 +1,10 @@
 <template>
-  <main class="container"></main>
+  <div class="cart-item"></div>
 </template>
 
 <script>
 export default {
-    name: "",
+    name: "CartItem",
     components: {},
     directives: {},
     data: () => ({}),
@@ -18,6 +18,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.cart-item {
 }
 </style>

@@ -22,14 +22,14 @@ Share with friends, enemies, and coworkers. Search for a product to get started.
 
 <script>
 import { mapGetters } from "vuex";
+import CartList from "../components/Cart/CartList.vue";
 import ProductsList from "../components/Products/ProductsList.vue";
 import SearchItem from "../components/SearchItem.vue";
 export default {
     name: "ShoppingCart",
-    components: { SearchItem, ProductsList },
+    components: { SearchItem, ProductsList, CartList },
     directives: {},
     data: () => ({
-        cartItems: [],
         currentSearch: "",
         isLoading: false,
         resultProducts: [],

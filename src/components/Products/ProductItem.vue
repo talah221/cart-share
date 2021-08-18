@@ -4,9 +4,9 @@
 <img :src="product.imgUrl" :alt="product.description">
 <p>{{product.description}}</p>
 <p class="price"> Price USD: {{product.price}}</p>
-<el-button @click.stop="addToCart" class="wishlist-btn" plain type="success"  rounded icon="el-icon-circle-plus-outline">
+<el-button @click.stop="toggleProductOnCart" class="wishlist-btn" plain type="success"  rounded icon="el-icon-circle-plus-outline">
 
-      {{addRemoveFromCart}}
+      Add To Cart
 </el-button>
 </section>
 </template>
@@ -27,15 +27,11 @@ export default {
         selectProduct() {
             this.isProductSelected = !this.isProductSelected;
         },
-        addToCart() {
-            console.log(this.product.id);
+        toggleProductOnCart() {
+            this.$store.dispatch("toggleProductOnCart", this.product);
         },
     },
-    computed: {
-        addRemoveFromCart() {
-            return "Add To Cart";
-        },
-    },
+    computed: {},
     watch: {
         isProductSelected(currState) {
             if (currState) this.$emit("addToSelected", this.product.id);
@@ -49,8 +45,8 @@ export default {
 .product {
     display: grid;
     align-items: center;
-    grid-template-columns: 5% 15% 40% 25% 10%;
-    padding: 15px;
+    grid-template-columns: 3% 12% 40% 25% 16%;
+    padding: 5px 15px;
     gap: 5px;
     background: rgb(243, 243, 243);
     margin-bottom: 15px;
@@ -64,12 +60,15 @@ export default {
     }
     .wishlist-btn {
         transition: 0.4s;
-        // display: flex;
-        // gap: 10px;
-        // flex-direction: column;
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
         // justify-content: center;
-        // align-items: center;
+        align-items: center;
         // padding: 0;
+        &::v-deep span {
+            white-space: initial;
+        }
     }
 }
 </style>

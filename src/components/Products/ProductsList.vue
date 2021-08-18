@@ -1,6 +1,9 @@
 <template>
 <section class="list-container">
-<el-button  type="success"  class="add-selected-btn" v-if="selectedProducts.length">Add Selected ({{selectedProducts.length}}) </el-button>
+    <transition name="el-zoom-in-top">
+<el-button  type="success"  class="add-selected-btn" v-show="selectedProducts.length">Add Selected ({{selectedProducts.length}}) </el-button>
+
+    </transition>
 <product-item @addToSelected="addToSelected" @removeSelected="removeSelected" v-for="product in products" :product="product" :key="product.id"/>
 </section>
 </template>
@@ -30,7 +33,6 @@ export default {
             const productToRemoveIdx = this.products.findIndex(
                 (p) => p.id === selectedProductId
             );
-            console.log({ productToRemoveIdx });
             this.selectedProducts.splice(productToRemoveIdx, 1);
         },
     },
@@ -39,7 +41,7 @@ export default {
 
 <style lang="scss" scoped>
 .list-container {
-    width: 90%;
+    width: 96%;
     margin: 20px auto;
     padding: 15px;
     .add-selected-btn {
