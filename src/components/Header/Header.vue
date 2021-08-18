@@ -18,16 +18,18 @@ import firebase from "firebase";
 export default {
     name: "Header",
     created() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) this.$store.dispatch("onSetUser", user);
-        });
+        // firebase.auth().onAuthStateChanged((user) => {
+        //     if (user) this.$store.dispatch("onSetUser", user);
+        // });
     },
     methods: {
         toggleLogin() {
             if (!this.loggedInUser) return;
             else {
-                firebase.auth().signOut;
-                this.$store.dispatch("onSetUser", null);
+                firebase
+                    .auth()
+                    .signOut()
+                    .then(() => this.$store.dispatch("onSetUser", null));
             }
         },
     },

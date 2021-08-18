@@ -14,15 +14,19 @@ export default {
     directives: {},
     data: () => ({}),
     created() {
-        firebase.auth().onAuthStateChanged((user) => {
+        firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
-                this.$store.dispatch("onSetUser", user);
-                firebase
+                console.log("user", user);
+                const firebaseToken = await firebase
                     .auth()
-                    .currentUser.getIdToken(false)
-                    .then((idToken) => {
-                        APIService.login("firebase", idToken);
-                    });
+                    .currentUser.getIdToken(false);
+                const accessToken = await APIService.login(
+                    "firebase",
+                    firebaseToken
+                );
+                this.$store.commit("setAccessToken", accessToken);
+                const userInfo = await APIService.getUserInfo();
+                this.$store.dispatch("onSetUser", userInfo);
             }
         });
     },

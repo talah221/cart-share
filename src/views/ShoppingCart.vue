@@ -7,16 +7,21 @@ Share with friends, enemies, and coworkers. Search for a product to get started.
 </header>
 <main> 
 
-  <SearchItem v-loading="isLoading"
-    element-loading-text="Loading Products" @search-item="searchItem"/>
+  <SearchItem 
+     @search-item="searchItem"/>
   <p 
      v-if="currentSearch">Search results for {{currentSearch}}</p>
-     <ProductsList v-if="resultProducts" :products="resultProducts" />
+     <ProductsList v-if="resultProducts" :products="resultProducts"
+     v-loading="isLoading"
+     element-loading-text="Loading Products"
+      />
+      <CartList v-if="cartItems.length"/>
 </main>
   </section>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import ProductsList from "../components/Products/ProductsList.vue";
 import SearchItem from "../components/SearchItem.vue";
 export default {
@@ -39,25 +44,32 @@ export default {
                 this.currentSearch = itemStr;
                 this.resultProducts = [
                     {
-                        id: Math.random() * 100,
+                        id: 1,
                         imgUrl: "https://picsum.photos/100/100?v=1",
-                        description: this.currentSearch,
+                        description:
+                            "Item bla bla bla free shipping limited edition",
+                        price: "$42",
                     },
                     {
-                        id: Math.random() * 100,
+                        id: 2,
                         imgUrl: "https://picsum.photos/100/100?v=2",
-                        description: this.currentSearch,
+                        description: "Iphone 12 pro max 256GB White 3 Cameras",
+                        price: "$780",
                     },
                     {
-                        id: Math.random() * 100,
+                        id: 3,
                         imgUrl: "https://picsum.photos/100/100?v=3",
-                        description: this.currentSearch,
+                        description:
+                            "Sony Playstation 5 1024GB White 2 Controllers",
+                        price: "$320",
                     },
                 ];
             }, 2000);
         },
     },
-    computed: {},
+    computed: {
+        ...mapGetters({ cartItems: "getCartItems" }),
+    },
     watch: {},
     unmounted() {},
 };
